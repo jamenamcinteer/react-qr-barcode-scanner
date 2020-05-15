@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "declaration": true,
+    "strictNullChecks": false,
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "exclude": [
+    "node_modules",
+    "cypress"
+  ],
+  "include": [
+    "src/**/*"
+  ]
+}

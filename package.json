@@ -1,0 +1,47 @@
+{
+  "name": "react-webcam-barcode-scanner",
+  "version": "0.0.1",
+  "description": "A simple React Component using the client's webcam to read barcodes.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "rm -rf dist && tsc --build tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashboardphilippines/react-webcam-barcode-scanner.git"
+  },
+  "keywords": [
+    "react",
+    "webcam",
+    "barcode",
+    "scanner",
+    "qr",
+    "qrcode",
+    "camera"
+  ],
+  "author": "Philly Tan <philly@phillytan.xyz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dashboardphilippines/react-webcam-barcode-scanner/issues"
+  },
+  "homepage": "https://github.com/dashboardphilippines/react-webcam-barcode-scanner#readme",
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "dependencies": {
+    "@types/react": "^16.9.35",
+    "@zxing/library": "^0.17.0",
+    "react-webcam": "^5.0.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint": "^7.0.0",
+    "eslint-plugin-react": "^7.20.0",
+    "typescript": "^3.9.2"
+  }
+}
