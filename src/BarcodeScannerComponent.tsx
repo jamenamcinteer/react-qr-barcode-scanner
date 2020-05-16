@@ -16,7 +16,7 @@ const BarcodeScannerComponent = ({
 
   const capture = React.useCallback(
     () => {
-      const imageSrc = webcamRef.current.getScreenshot()
+      const imageSrc = webcamRef?.current?.getScreenshot()
       if (imageSrc) {
         codeReader.decodeFromImage(undefined, imageSrc).then(result => {
           onUpdate(null, result)
