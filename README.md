@@ -14,7 +14,7 @@ A demo of this can be found at: [https://barcode.phdash.com](https://barcode.phd
 
 ```jsx
 import React from 'react';
-import BarcodeScannerComponent from './BarcodeScannerComponent';
+import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 
 function App() {
 
