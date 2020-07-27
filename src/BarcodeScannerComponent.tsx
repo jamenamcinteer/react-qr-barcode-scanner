@@ -30,7 +30,7 @@ const BarcodeScannerComponent = ({
 
   React.useEffect(() => {
     setInterval(capture, 100)
-  })
+  }, []);
 
   return (
     <Webcam
