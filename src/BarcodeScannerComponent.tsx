@@ -7,12 +7,14 @@ const BarcodeScannerComponent = ({
   height,
   onUpdate,
   facingMode = "environment",
+  delay = 500,
   videoConstraints,
 }: {
   width: number;
   height: number;
   onUpdate: (arg0: unknown, arg1?: Result) => void;
   facingMode: "environment" | "user";
+  delay?: number;
   videoConstraints?: MediaTrackConstraints;
 }): React.ReactElement => {
   const webcamRef = React.useRef(null);
@@ -33,7 +35,7 @@ const BarcodeScannerComponent = ({
   }, [codeReader, onUpdate]);
 
   React.useEffect(() => {
-    setInterval(capture, 100);
+    setInterval(capture, delay);
   }, []);
 
   return (
