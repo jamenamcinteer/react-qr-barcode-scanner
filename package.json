@@ -1,10 +1,13 @@
 {
   "name": "react-qr-barcode-scanner",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple React Component using the client's webcam to read barcodes and QR codes.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Jamena McInteer (https://jamena.dev)",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "build": "rm -rf dist && tsc --build tsconfig.json",
@@ -12,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dashboardphilippines/react-webcam-barcode-scanner.git"
+    "url": "git+https://github.com/jamenamcinteer/react-qr-barcode-scanner.git"
   },
   "keywords": [
     "react",
