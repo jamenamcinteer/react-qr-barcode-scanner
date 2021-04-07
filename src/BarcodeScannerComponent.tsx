@@ -3,17 +3,17 @@ import { BrowserMultiFormatReader, Result } from "@zxing/library";
 import Webcam from "react-webcam";
 
 const BarcodeScannerComponent = ({
-  width,
-  height,
   onUpdate,
+  width = "100%",
+  height = "100%",
   facingMode = "environment",
   delay = 500,
   videoConstraints,
 }: {
-  width: number;
-  height: number;
   onUpdate: (arg0: unknown, arg1?: Result) => void;
-  facingMode: "environment" | "user";
+  width?: number | string;
+  height?: number | string;
+  facingMode?: "environment" | "user";
   delay?: number;
   videoConstraints?: MediaTrackConstraints;
 }): React.ReactElement => {
