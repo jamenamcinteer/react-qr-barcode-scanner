@@ -59,6 +59,12 @@ Type: `environment` or `user`, Optional, Default: `environment`
 
 `user` is the user-facing (front) camera, and `environment` is the rear camera.
 
+### torch
+
+Type: `boolean`, Optional
+
+Turn the camera flashlight on or off.
+
 ### delay
 
 Type: `number`, Optional, Default: `500`
