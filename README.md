@@ -45,6 +45,20 @@ Type: `function`, Required, Argument: `error`, `result`
 
 Function that returns the result for every captured frame. Text from barcode can be accessed from `result.text` if there is a result.
 
+### onError
+
+Type: `function`, Optional, Argument: `error`
+
+If passed to the component, this function is called when there is an error with the camera (rather than with with reading the QR code, which would be passed to `onUpdate`). An example would be an error thrown when the user does not allow the required camera permission. This can be handled with an `onError` function similar to this:
+
+```jsx
+const onError = (error) => {
+  if (error.name === "NotAllowedError") {
+    // Handle messaging in our app after the user chooses to not allow the camera permissions
+  }
+};
+```
+
 ### width
 
 Type: `number` or `string`, Optional, Default: `100%`

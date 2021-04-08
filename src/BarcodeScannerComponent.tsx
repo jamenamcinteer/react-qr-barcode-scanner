@@ -4,6 +4,7 @@ import Webcam from "react-webcam";
 
 const BarcodeScannerComponent = ({
   onUpdate,
+  onError,
   width = "100%",
   height = "100%",
   facingMode = "environment",
@@ -13,6 +14,7 @@ const BarcodeScannerComponent = ({
   stopStream,
 }: {
   onUpdate: (arg0: unknown, arg1?: Result) => void;
+  onError?: (arg0: string | DOMException) => void;
   width?: number | string;
   height?: number | string;
   facingMode?: "environment" | "user";
@@ -93,6 +95,7 @@ const BarcodeScannerComponent = ({
         }
       }
       audio={false}
+      onUserMediaError={onError}
     />
   );
 };
