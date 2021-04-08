@@ -7,6 +7,7 @@ const BarcodeScannerComponent = ({
   width = "100%",
   height = "100%",
   facingMode = "environment",
+  torch,
   delay = 500,
   videoConstraints,
   stopStream,
@@ -15,14 +16,15 @@ const BarcodeScannerComponent = ({
   width?: number | string;
   height?: number | string;
   facingMode?: "environment" | "user";
+  torch?: boolean;
   delay?: number;
   videoConstraints?: MediaTrackConstraints;
   stopStream?: boolean;
 }): React.ReactElement => {
   const webcamRef = React.useRef(null);
-  const codeReader = new BrowserMultiFormatReader();
 
   const capture = React.useCallback(() => {
+    const codeReader = new BrowserMultiFormatReader();
     const imageSrc = webcamRef?.current?.getScreenshot();
     if (imageSrc) {
       codeReader
@@ -34,7 +36,30 @@ const BarcodeScannerComponent = ({
           onUpdate(err);
         });
     }
-  }, [codeReader, onUpdate]);
+  }, [onUpdate]);
+
+  React.useEffect(() => {
+    // Turn on the flashlight if prop is defined and device has the capability
+    if (
+      typeof torch === "boolean" &&
+      // @ts-ignore
+      navigator?.mediaDevices?.getSupportedConstraints().torch
+    ) {
+      const stream = webcamRef?.current?.video.srcObject;
+      const track = stream?.getVideoTracks()[0]; // get the active track of the stream
+      if (
+        track &&
+        track.getCapabilities().torch &&
+        !track.getConstraints().torch
+      ) {
+        track
+          .applyConstraints({
+            advanced: [{ torch }],
+          })
+          .catch((err: any) => onUpdate(err));
+      }
+    }
+  }, [torch, onUpdate]);
 
   React.useEffect(() => {
     if (stopStream) {
