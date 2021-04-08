@@ -9,6 +9,7 @@ const BarcodeScannerComponent = ({
   facingMode = "environment",
   delay = 500,
   videoConstraints,
+  stopStream,
 }: {
   onUpdate: (arg0: unknown, arg1?: Result) => void;
   width?: number | string;
@@ -16,6 +17,7 @@ const BarcodeScannerComponent = ({
   facingMode?: "environment" | "user";
   delay?: number;
   videoConstraints?: MediaTrackConstraints;
+  stopStream?: boolean;
 }): React.ReactElement => {
   const webcamRef = React.useRef(null);
   const codeReader = new BrowserMultiFormatReader();
@@ -33,6 +35,19 @@ const BarcodeScannerComponent = ({
         });
     }
   }, [codeReader, onUpdate]);
+
+  React.useEffect(() => {
+    if (stopStream) {
+      let stream = webcamRef?.current?.video.srcObject;
+      if (stream) {
+        stream.getTracks().forEach((track: any) => {
+          stream.removeTrack(track);
+          track.stop();
+        });
+        stream = null;
+      }
+    }
+  }, [stopStream]);
 
   React.useEffect(() => {
     const interval = setInterval(capture, delay);

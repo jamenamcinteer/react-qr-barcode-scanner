@@ -14,7 +14,7 @@ npm i react-qr-barcode-scanner
 
 ```jsx
 import React from "react";
-import BarcodeScannerComponent from "react-webcam-barcode-scanner";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
 function App() {
   const [data, setData] = React.useState("Not Found");
@@ -43,6 +43,8 @@ export default App;
 
 Type: `function`, Required, Argument: `error`, `result`
 
+Function that returns the result for every captured frame. Text from barcode can be accessed from `result.text` if there is a result.
+
 ### width
 
 Type: `number` or `string`, Optional, Default: `100%`
@@ -55,6 +57,8 @@ Type: `number` or `string`, Optional, Default: `100%`
 
 Type: `environment` or `user`, Optional, Default: `environment`
 
+`user` is the user-facing (front) camera, and `environment` is the rear camera.
+
 ### delay
 
 Type: `number`, Optional, Default: `500`
@@ -62,6 +66,12 @@ Type: `number`, Optional, Default: `500`
 ### videoConstraints
 
 Type: `MediaTrackConstraints`, Optional
+
+### stopStream
+
+Type: `boolean`, Optional
+
+This prop is a workaround for a bug where the browser freezes if the webcam component is unmounted or removed. See known issues for more about this issue.
 
 ## Supported Barcode Formats
 
@@ -77,5 +87,22 @@ These formats are supported by ZXing:
 ## Known Issues
 
 - The camera can only be accessed over https or localhost
-- Browser compatibility is limited by react-webcam's usage of the Stream API: https://caniuse.com/stream
-- On iOS-Devices with iOS < 14.3 camera access works only in native Safari and not in other Browsers (Chrome,...) or Apps that use an UIWebView or WKWebView. iOS 14.3 (released in december 2020) now supports WebRTC in 3rd party browsers as well.
+- Browser compatibility is limited by react-webcam's usage of the Stream API: https://caniuse.com/stream. On iOS-Devices with iOS < 14.3 camera access works only in native Safari and not in other Browsers (Chrome, etc) or Apps that use an UIWebView or WKWebView. iOS 14.3 (released in December 2020) now supports WebRTC in 3rd party browsers as well.
+- There is a bug in the `react-webcam` package that causes the browser to freeze when the component is unmounted or removed, or the camera video constraints are changed (for example, switching cameras or navigating away from the screen with the camera component). Please see this thread regarding the reported issue: https://github.com/mozmorris/react-webcam/issues/244. As a workaround, `react-qr-barcode-scanner` allows passing a `stopStream` prop to stop the video streams when `true` is passed, allowing you to close the stream before unmounting the component or doing some other action that may cause the freeze. I found I needed to set a timeout to wait one tick before dismissing the modal in my use case to prevent the freeze. **PRs to improve this issue are welcome!**
+
+  Example:
+
+  ```jsx
+  const [stopStream, setStopStream] = useState(false)
+  //...
+  const dismissQrReader = () => {
+    // Stop the QR Reader stream (fixes issue where the browser freezes when closing the modal) and then dismiss the modal one tick later
+    setStopStream(true)
+    setTimeout(() => closeModal(), 0)
+  }
+  //...
+  <Modal>
+    <BarcodeScanner onUpdate={onUpdate} stopStream={stopStream} />
+    <button onClick={dismissQrReader}>
+  </Modal>
+  ```
