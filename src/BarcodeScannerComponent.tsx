@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserMultiFormatReader, Result } from "@zxing/library";
 import Webcam from "react-webcam";
+import { MATRIX_FORMATS } from "./constants";
 
 const BarcodeScannerComponent = ({
   onUpdate,
@@ -32,7 +33,7 @@ const BarcodeScannerComponent = ({
       codeReader
         .decodeFromImage(undefined, imageSrc)
         .then((result) => {
-          onUpdate(null, result);
+          onUpdate(null, { ...result, is1DMatrix: MATRIX_FORMATS["1D"].includes(result.getBarcodeFormat()) });
         })
         .catch((err) => {
           onUpdate(err);
