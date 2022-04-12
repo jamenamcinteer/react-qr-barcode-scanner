@@ -36,8 +36,8 @@
     "react-dom": "^16.13.1"
   },
   "dependencies": {
-    "@types/react": "^16.9.35",
-    "@zxing/library": "^0.17.0",
+    "@types/react": "^17.0.2",
+    "@zxing/library": "^17.0.2",
     "react-webcam": "^5.0.1"
   },
   "devDependencies": {
