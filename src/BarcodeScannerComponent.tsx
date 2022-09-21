@@ -1,33 +1,40 @@
-import React from "react";
-import { BrowserMultiFormatReader, Result } from "@zxing/library";
-import Webcam from "react-webcam";
+import React from 'react';
+import { BrowserMultiFormatReader, Result } from '@zxing/library';
+import Webcam from 'react-webcam';
 
-const BarcodeScannerComponent = ({
-  onUpdate,
-  onError,
-  width = "100%",
-  height = "100%",
-  facingMode = "environment",
-  torch,
-  delay = 500,
-  videoConstraints,
-  stopStream,
-}: {
+interface CustomMediaTrackSupportedConstraints extends MediaTrackSupportedConstraints {
+  torch: boolean
+}
+
+type Prop = {
   onUpdate: (arg0: unknown, arg1?: Result) => void;
   onError?: (arg0: string | DOMException) => void;
   width?: number | string;
   height?: number | string;
-  facingMode?: "environment" | "user";
+  facingMode?: 'environment' | 'user';
   torch?: boolean;
   delay?: number;
   videoConstraints?: MediaTrackConstraints;
   stopStream?: boolean;
-}): React.ReactElement => {
+}
+
+const BarcodeScannerComponent: React.FC<Prop> = ({
+  onUpdate,
+  onError,
+  width = '100%',
+  height = '100%',
+  facingMode = 'environment',
+  torch,
+  delay = 500,
+  videoConstraints,
+  stopStream,
+}) => {
   const webcamRef = React.useRef(null);
 
   const capture = React.useCallback(() => {
     const codeReader = new BrowserMultiFormatReader();
     const imageSrc = webcamRef?.current?.getScreenshot();
+
     if (imageSrc) {
       codeReader
         .decodeFromImage(undefined, imageSrc)
@@ -43,9 +50,8 @@ const BarcodeScannerComponent = ({
   React.useEffect(() => {
     // Turn on the flashlight if prop is defined and device has the capability
     if (
-      typeof torch === "boolean" &&
-      // @ts-ignore
-      navigator?.mediaDevices?.getSupportedConstraints().torch
+      typeof torch === 'boolean' &&
+        (navigator?.mediaDevices?.getSupportedConstraints() as CustomMediaTrackSupportedConstraints).torch
     ) {
       const stream = webcamRef?.current?.video.srcObject;
       const track = stream?.getVideoTracks()[0]; // get the active track of the stream
@@ -58,16 +64,17 @@ const BarcodeScannerComponent = ({
           .applyConstraints({
             advanced: [{ torch }],
           })
-          .catch((err: any) => onUpdate(err));
+          .catch((err: Error) => onUpdate(err));
       }
     }
   }, [torch, onUpdate]);
 
   React.useEffect(() => {
     if (stopStream) {
-      let stream = webcamRef?.current?.video.srcObject;
+      let stream: MediaStream | null = webcamRef?.current?.video.srcObject;
+
       if (stream) {
-        stream.getTracks().forEach((track: any) => {
+        stream.getTracks().forEach((track) => {
           stream.removeTrack(track);
           track.stop();
         });
@@ -99,5 +106,6 @@ const BarcodeScannerComponent = ({
     />
   );
 };
+BarcodeScannerComponent.displayName = 'BarcodeScannerComponent';
 
 export default BarcodeScannerComponent;
