@@ -1,3 +1,3 @@
-import BarcodeScannerComponent from './BarcodeScannerComponent'
+import BarcodeScannerComponent from './BarcodeScannerComponent';
 
-export default BarcodeScannerComponent
+export default BarcodeScannerComponent;

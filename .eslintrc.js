@@ -23,7 +23,7 @@ module.exports = {
     '@typescript-eslint/camelcase': ['off', { 'properties': 'never' }],
     '@typescript-eslint/quotes': ['error', 'single'],
     'camelcase': 'off',
-    'comma-dangle': 2,
+    'comma-dangle': [2, "always-multiline"],
     'indent': ['error', 2],
     'no-extra-semi': 2,
     'no-irregular-whitespace': 2,
@@ -35,7 +35,7 @@ module.exports = {
     'no-unreachable': 'error',
     'object-curly-spacing': ['error', 'always'],
     'quotes': 'off',
-    'semi': ['error', 'never']
+    'semi': [2, "always"]
   },
   settings: {
     react: {
