@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/camelcase': ['off', { 'properties': 'never' }],
     '@typescript-eslint/quotes': ['error', 'single'],
+    '@typescript-eslint/ban-ts-comment':'off',
     'camelcase': 'off',
     'comma-dangle': 2,
     'indent': ['error', 2],
