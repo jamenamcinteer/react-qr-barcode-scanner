@@ -43,6 +43,7 @@ const BarcodeScannerComponent = ({
   React.useEffect(() => {
     // Turn on the flashlight if prop is defined and device has the capability
     if (
+      // @ts-ignore
       typeof torch === 'boolean' && (navigator?.mediaDevices?.getSupportedConstraints().torch)
     ) {
       const stream = webcamRef?.current?.video.srcObject
