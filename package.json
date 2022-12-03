@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
-    "build": "rm -rf dist && tsc --build tsconfig.json",
+    "build": "npm run lint && echo 'build' && rm -rf dist && tsc --build tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -32,19 +32,19 @@
   },
   "homepage": "https://github.com/jamenamcinteer/react-qr-barcode-scanner#readme",
   "peerDependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@types/react": "^16.9.35",
-    "@zxing/library": "^0.17.0",
-    "react-webcam": "^5.0.1"
+    "@types/react": "^18.0.26",
+    "@zxing/library": "^0.17.1",
+    "react-webcam": "^5.2.4"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
-    "eslint": "^7.0.0",
-    "eslint-plugin-react": "^7.20.0",
-    "typescript": "^3.9.2"
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.29.0",
+    "eslint-plugin-react": "^7.31.11",
+    "typescript": "^4.9.3"
   }
 }
