@@ -53,11 +53,13 @@ const BarcodeScannerComponent = ({
         track.getCapabilities().torch &&
         !track.getConstraints().torch
       ) {
-        track
-          .applyConstraints({
-            advanced: [{ torch }]
-          })
-          .catch((err: any) => onUpdate(err))
+        // @ts-ignore
+        track.applyConstraints({
+          advanced: [{ torch }]
+        }).catch(
+          (err: any) => onUpdate(err))
+
+
       }
     }
   }, [torch, onUpdate])
@@ -66,10 +68,11 @@ const BarcodeScannerComponent = ({
     if (stopStream) {
       let stream = webcamRef?.current?.video.srcObject
       if (stream) {
-        stream.getTracks().forEach((track: any) => {
-          stream.removeTrack(track)
-          track.stop()
-        })
+        stream.getTracks()
+          .forEach((track: any) => {
+            stream.removeTrack(track)
+            track.stop()
+          })
         stream = null
       }
     }

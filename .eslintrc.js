@@ -20,6 +20,7 @@ module.exports = {
     }
   },
   rules: {
+    "@typescript-eslint/no-explicit-any": "off",
     '@typescript-eslint/camelcase': ['off', { 'properties': 'never' }],
     '@typescript-eslint/quotes': ['error', 'single'],
     '@typescript-eslint/ban-ts-comment':'off',
