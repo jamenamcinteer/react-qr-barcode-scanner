@@ -1,5 +1,5 @@
 {
-	"name": "react-qr-barcode-scanner",
+	"name": "react-qr-barcode-scanner-18",
 	"version": "1.2.0",
 	"description": "A simple React Component using the client's webcam to read barcodes and QR codes.",
 	"main": "dist/index.js",
