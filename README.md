@@ -7,31 +7,31 @@ Thanks to the initial repo: https://github.com/dashboardphilippines/react-webcam
 ## Installation
 
 ```
-npm i react-qr-barcode-scanner
+npm i react-qr-barcode-scanner-18
 ```
 
 ## Usage in React:
 
 ```jsx
-import React from "react";
-import BarcodeScannerComponent from "react-qr-barcode-scanner";
+import React from 'react';
+import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 
 function App() {
-  const [data, setData] = React.useState("Not Found");
+	const [data, setData] = React.useState('Not Found');
 
-  return (
-    <>
-      <BarcodeScannerComponent
-        width={500}
-        height={500}
-        onUpdate={(err, result) => {
-          if (result) setData(result.text);
-          else setData("Not Found");
-        }}
-      />
-      <p>{data}</p>
-    </>
-  );
+	return (
+		<>
+			<BarcodeScannerComponent
+				width={500}
+				height={500}
+				onUpdate={(err, result) => {
+					if (result) setData(result.text);
+					else setData('Not Found');
+				}}
+			/>
+			<p>{data}</p>
+		</>
+	);
 }
 
 export default App;
@@ -53,9 +53,9 @@ If passed to the component, this function is called when there is an error with 
 
 ```jsx
 const onError = (error) => {
-  if (error.name === "NotAllowedError") {
-    // Handle messaging in our app after the user chooses to not allow the camera permissions
-  }
+	if (error.name === 'NotAllowedError') {
+		// Handle messaging in our app after the user chooses to not allow the camera permissions
+	}
 };
 ```
 
@@ -106,23 +106,23 @@ These formats are supported by ZXing:
 
 ## Known Issues
 
-- The camera can only be accessed over https or localhost
-- Browser compatibility is limited by react-webcam's usage of the Stream API: https://caniuse.com/stream. On iOS-Devices with iOS < 14.3 camera access works only in native Safari and not in other Browsers (Chrome, etc) or Apps that use an UIWebView or WKWebView. iOS 14.3 (released in December 2020) now supports WebRTC in 3rd party browsers as well.
-- There is a bug in the `react-webcam` package that causes the browser to freeze when the component is unmounted or removed, or the camera video constraints are changed (for example, switching cameras or navigating away from the screen with the camera component). Please see this thread regarding the reported issue: https://github.com/mozmorris/react-webcam/issues/244. As a workaround, `react-qr-barcode-scanner` allows passing a `stopStream` prop to stop the video streams when `true` is passed, allowing you to close the stream before unmounting the component or doing some other action that may cause the freeze. I found I needed to set a timeout to wait one tick before dismissing the modal in my use case to prevent the freeze. **PRs to improve this issue are welcome!**
+-   The camera can only be accessed over https or localhost
+-   Browser compatibility is limited by react-webcam's usage of the Stream API: https://caniuse.com/stream. On iOS-Devices with iOS < 14.3 camera access works only in native Safari and not in other Browsers (Chrome, etc) or Apps that use an UIWebView or WKWebView. iOS 14.3 (released in December 2020) now supports WebRTC in 3rd party browsers as well.
+-   There is a bug in the `react-webcam` package that causes the browser to freeze when the component is unmounted or removed, or the camera video constraints are changed (for example, switching cameras or navigating away from the screen with the camera component). Please see this thread regarding the reported issue: https://github.com/mozmorris/react-webcam/issues/244. As a workaround, `react-qr-barcode-scanner` allows passing a `stopStream` prop to stop the video streams when `true` is passed, allowing you to close the stream before unmounting the component or doing some other action that may cause the freeze. I found I needed to set a timeout to wait one tick before dismissing the modal in my use case to prevent the freeze. **PRs to improve this issue are welcome!**
 
-  Example:
+    Example:
 
-  ```jsx
-  const [stopStream, setStopStream] = useState(false)
-  //...
-  const dismissQrReader = () => {
-    // Stop the QR Reader stream (fixes issue where the browser freezes when closing the modal) and then dismiss the modal one tick later
-    setStopStream(true)
-    setTimeout(() => closeModal(), 0)
-  }
-  //...
-  <Modal>
-    <BarcodeScanner onUpdate={onUpdate} stopStream={stopStream} />
-    <button onClick={dismissQrReader}>
-  </Modal>
-  ```
+    ```jsx
+    const [stopStream, setStopStream] = useState(false)
+    //...
+    const dismissQrReader = () => {
+      // Stop the QR Reader stream (fixes issue where the browser freezes when closing the modal) and then dismiss the modal one tick later
+      setStopStream(true)
+      setTimeout(() => closeModal(), 0)
+    }
+    //...
+    <Modal>
+      <BarcodeScanner onUpdate={onUpdate} stopStream={stopStream} />
+      <button onClick={dismissQrReader}>
+    </Modal>
+    ```
