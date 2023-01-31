@@ -7,7 +7,7 @@ Thanks to the initial repo: https://github.com/dashboardphilippines/react-webcam
 ## Installation
 
 ```
-npm i react-qr-barcode-scanner-18
+npm i react-qr-barcode-scanner
 ```
 
 ## Usage in React:
