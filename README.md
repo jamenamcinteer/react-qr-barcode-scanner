@@ -43,7 +43,7 @@ export default App;
 
 Type: `function`, Required, Argument: `error`, `result`
 
-Function that returns the result for every captured frame. Text from barcode can be accessed from `result.text` if there is a result.
+Function that returns the result for every captured frame. Text from barcode can be accessed from `result.getText()` if there is a result.
 
 ### onError
 
