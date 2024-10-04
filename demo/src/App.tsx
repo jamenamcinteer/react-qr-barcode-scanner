@@ -3,25 +3,18 @@ import "./App.css";
 import BarcodeScanner from "react-qr-barcode-scanner";
 
 function App() {
-  const [data, setData] = useState<string>("Not Found");
-  const [error, setError] = useState<string>(null);
+  const [data, setData] = useState<string>("");
 
   return (
     <>
       <BarcodeScanner
         width={500}
         height={500}
-        onUpdate={(err, result) => {
-          console.log("result", result);
-          if (result) setData(result.text);
-          else setData("Not Found");
-        }}
-        onError={(error) => {
-          setError(error as string);
+        onUpdate={(_err, result) => {
+          if (result) setData(result.getText());
         }}
       />
-      <p>{error}</p>
-      <p>{data}</p>
+      <p>Result: {data}</p>
     </>
   );
 }
