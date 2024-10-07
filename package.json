@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
-    "build": "rm -rf dist && tsc --build tsconfig.json",
+    "build": "rm -rf dist && tsc --build tsconfig.json --declaration",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
