@@ -10,6 +10,9 @@ Thanks to the initial repo: https://github.com/dashboardphilippines/react-webcam
 npm i react-qr-barcode-scanner
 ```
 
+## Demo
+Try a demo of the scanner [here](https://jamenamcinteer.github.io/react-qr-barcode-scanner/).
+
 ## Usage in React:
 
 ```jsx
@@ -126,3 +129,12 @@ These formats are supported by ZXing:
     <button onClick={dismissQrReader}>
   </Modal>
   ```
+
+## Contributing
+We welcome contributions to react-qr-barcode-scanner.
+
+If you have an idea for a new feature or have discovered a bug, please open an issue.
+
+Please `yarn build` in the root and `docs_src` directories before pushing changes.
+
+Don't forget to add a title and a description explaining the issue you're trying to solve and your proposed solution.
