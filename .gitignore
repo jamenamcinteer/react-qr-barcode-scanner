@@ -1,4 +1,8 @@
 node_modules
 dist
 package-lock.json
+.DS_STORE
 .tsbuildinfo
+tsconfig.tsbuildinfo
+docs/tsconfig.app.tsbuildinfo
+docs/tsconfig.node.tsbuildinfo
