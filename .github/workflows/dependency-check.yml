@@ -19,7 +19,12 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install scripts dependencies
+        run: |
+          cd .github/scripts
+          npm install
+
+      - name: Install project dependencies
         run: yarn install
 
       - name: Check for outdated dependencies
