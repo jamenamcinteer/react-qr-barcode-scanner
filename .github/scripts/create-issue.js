@@ -11,23 +11,30 @@ const [OWNER, REPO] = process.env.GITHUB_REPOSITORY.split('/');
 // Read the output from yarn outdated
 const data = fs.readFileSync('outdated.json', 'utf8');
 
-// Debug: Print the raw data to identify the issue
-console.log('Raw data from outdated.json:', data);
+// Split the output into individual JSON objects (one per line)
+const jsonObjects = data.split('\n').filter(line => line.trim().startsWith('{'));
 
-try {
-  const parsed = JSON.parse(data);
-  console.log('Parsed JSON:', parsed);
-} catch (error) {
-  console.error('Error parsing JSON:', error.message);
+// Find the relevant table data
+let parsed;
+for (const jsonString of jsonObjects) {
+  try {
+    const obj = JSON.parse(jsonString);
+    if (obj.type === 'table') {
+      parsed = obj;
+      break;
+    }
+  } catch (error) {
+    console.error('Error parsing JSON:', error.message);
+  }
+}
+
+// If no valid table data is found, exit
+if (!parsed) {
+  console.error('No valid table data found in yarn outdated output.');
   process.exit(1);
 }
 
-// Check if the data type is "table" and extract dependencies
-if (parsed.type !== 'table' || !parsed.data || !parsed.data.body) {
-  console.error('Unexpected JSON structure:', parsed);
-  process.exit(1);
-}
-
+// Extract dependencies from the parsed table data
 const dependencies = parsed.data.body;
 
 // Function to determine the type of version upgrade
