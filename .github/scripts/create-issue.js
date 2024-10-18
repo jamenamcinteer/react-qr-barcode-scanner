@@ -8,9 +8,19 @@ const octokit = new Octokit({ auth: token });
 // Extract repository owner and name
 const [OWNER, REPO] = process.env.GITHUB_REPOSITORY.split('/');
 
-// Read and parse the JSON output from yarn outdated
+// Read the output from yarn outdated
 const data = fs.readFileSync('outdated.json', 'utf8');
-const parsed = JSON.parse(data);
+
+// Debug: Print the raw data to identify the issue
+console.log('Raw data from outdated.json:', data);
+
+try {
+  const parsed = JSON.parse(data);
+  console.log('Parsed JSON:', parsed);
+} catch (error) {
+  console.error('Error parsing JSON:', error.message);
+  process.exit(1);
+}
 
 // Check if the data type is "table" and extract dependencies
 if (parsed.type !== 'table' || !parsed.data || !parsed.data.body) {
