@@ -1,0 +1,9 @@
+{
+  "name": "github-actions-scripts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^19.0.7"
+  }
+}
