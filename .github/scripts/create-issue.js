@@ -8,13 +8,17 @@ const octokit = new Octokit({ auth: token });
 // Extract repository owner and name
 const [OWNER, REPO] = process.env.GITHUB_REPOSITORY.split('/');
 
-// Read outdated dependencies from the JSON file
+// Read and parse the JSON output from yarn outdated
 const data = fs.readFileSync('outdated.json', 'utf8');
-const outdated = JSON.parse(data);
+const parsed = JSON.parse(data);
 
-// Prepare the date for the issue title
-const today = new Date().toISOString().slice(0, 10);
-const issueTitle = `Dependency Update - ${today}`;
+// Check if the data type is "table" and extract dependencies
+if (parsed.type !== 'table' || !parsed.data || !parsed.data.body) {
+  console.error('Unexpected JSON structure:', parsed);
+  process.exit(1);
+}
+
+const dependencies = parsed.data.body;
 
 // Function to determine the type of version upgrade
 function getUpgradeType(current, latest) {
@@ -26,22 +30,15 @@ function getUpgradeType(current, latest) {
   return 'patch';
 }
 
-// Group dependencies by major, minor, and patch updates
+// Group dependencies by upgrade type
 const upgrades = { major: [], minor: [], patch: [] };
-const dependencies = outdated.data?.body || [];
 
-if (dependencies.length === 0) {
-  console.log('No outdated dependencies found. Skipping issue creation.');
-  process.exit(0);
-}
+dependencies.forEach(([pkg, current, wanted, latest]) => {
+  const upgradeType = getUpgradeType(current, latest);
+  upgrades[upgradeType].push({ pkg, current, wanted, latest });
+});
 
-// Organize dependencies into their respective categories
-for (const dep of dependencies) {
-  const upgradeType = getUpgradeType(dep.current, dep.latest);
-  upgrades[upgradeType].push(dep);
-}
-
-// Prepare the issue body with headers
+// Prepare the issue body with headers for each upgrade type
 let issueBody = '### Outdated Yarn Dependencies\n\n';
 
 for (const [type, deps] of Object.entries(upgrades)) {
@@ -51,9 +48,9 @@ for (const [type, deps] of Object.entries(upgrades)) {
   issueBody += '| Package | Current | Wanted | Latest |\n';
   issueBody += '|---------|---------|--------|--------|\n';
 
-  for (const dep of deps) {
-    issueBody += `| ${dep.name} | ${dep.current} | ${dep.wanted} | ${dep.latest} |\n`;
-  }
+  deps.forEach(({ pkg, current, wanted, latest }) => {
+    issueBody += `| ${pkg} | ${current} | ${wanted} | ${latest} |\n`;
+  });
 
   issueBody += '\n';
 }
@@ -63,9 +60,9 @@ octokit.issues
   .create({
     owner: OWNER,
     repo: REPO,
-    title: issueTitle,
+    title: `Dependency Update - ${new Date().toISOString().slice(0, 10)}`,
     body: issueBody,
-    assignees: ['codeowners'],
+    assignees: ['codeowners'], // Adjust if necessary
   })
   .then(() => {
     console.log('Issue created successfully!');
