@@ -79,7 +79,7 @@ octokit.issues
     repo: REPO,
     title: `Dependency Update - ${new Date().toISOString().slice(0, 10)}`,
     body: issueBody,
-    assignees: ['@jamenamcinteer'], // Adjust if necessary
+    assignees: ['jamenamcinteer'], // Adjust if necessary
   })
   .then(() => {
     console.log('Issue created successfully!');
