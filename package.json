@@ -36,7 +36,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@types/react": "^18.2.0",
+    "@types/react": "^19.0.1",
     "@zxing/library": "^0.21.3",
     "react-webcam": "^7.1.1"
   },
