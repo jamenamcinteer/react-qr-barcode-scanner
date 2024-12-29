@@ -36,15 +36,15 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@types/react": "^19.0.1",
+    "@types/react": "^19.0.2",
     "@zxing/library": "^0.21.3",
     "react-webcam": "^7.1.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.16.0",
-    "@typescript-eslint/parser": "^8.18.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
     "eslint": "^9.17.0",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react": "^7.37.3",
     "typescript": "^5.7.2"
   }
 }
