@@ -87,19 +87,21 @@ export const BarcodeScannerComponent = ({
   }, []);
 
   return (
-    <Webcam
-      width={width}
-      height={height}
-      ref={webcamRef}
-      screenshotFormat="image/jpeg"
-      videoConstraints={
-        videoConstraints || {
-          facingMode,
+    <>
+      <Webcam
+        width={width}
+        height={height}
+        ref={webcamRef}
+        screenshotFormat="image/jpeg"
+        videoConstraints={
+          videoConstraints || {
+            facingMode,
+          }
         }
-      }
-      audio={false}
-      onUserMediaError={onError}
-    />
+        audio={false}
+        onUserMediaError={onError}
+      />
+    </>
   );
 };
 
