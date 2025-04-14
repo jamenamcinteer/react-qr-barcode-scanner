@@ -4,27 +4,27 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "cd .. && npm run build && npm link && cd docs_src && npm link react-qr-barcode-scanner && vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.1.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.2",
-    "@vitejs/plugin-react": "^4.3.2",
-    "eslint": "^9.11.1",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.12",
-    "globals": "^15.9.0",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.7.0",
-    "vite": "^6.0.3",
-    "vite-plugin-mkcert": "^1.17.6"
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.30.0",
+    "vite": "^6.2.6",
+    "vite-plugin-mkcert": "^1.17.8"
   }
 }
