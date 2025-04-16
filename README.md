@@ -13,7 +13,7 @@ npm i react-qr-barcode-scanner
 ## Demo
 Try a demo of the scanner [here](https://jamenamcinteer.github.io/react-qr-barcode-scanner/).
 
-![QR Code for demo link](https://jamenamcinteer.github.io/react-qr-barcode-scanner/assets/demo-qr.jpg)
+![QR Code for demo link](https://raw.githubusercontent.com/jamenamcinteer/react-qr-barcode-scanner/refs/heads/next-release/docs/assets/demo-qr.png)
 
 ## Usage in React:
 
