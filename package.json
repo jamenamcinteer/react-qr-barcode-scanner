@@ -1,9 +1,10 @@
 {
   "name": "react-qr-barcode-scanner",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A simple React Component using the client's webcam to read barcodes and QR codes.",
-  "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "author": "Jamena McInteer (https://jamena.dev)",
   "files": [
     "dist"
@@ -11,7 +12,8 @@
   "scripts": {
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "build": "rm -rf dist && tsc --build tsconfig.json --declaration",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -31,20 +33,21 @@
     "url": "https://github.com/jamenamcinteer/react-qr-barcode-scanner/issues"
   },
   "homepage": "https://github.com/jamenamcinteer/react-qr-barcode-scanner#readme",
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
   "dependencies": {
-    "@types/react": "^19.0.2",
     "@zxing/library": "^0.21.3",
-    "react-webcam": "^7.1.1"
+    "react-webcam": "^7.2.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.24.0",
-    "@typescript-eslint/parser": "^8.24.0",
-    "eslint": "^9.20.1",
-    "eslint-plugin-react": "^7.37.3",
-    "typescript": "^5.7.2"
+    "@types/react": "^19.1.2",
+    "@typescript-eslint/eslint-plugin": "^8.30.0",
+    "@typescript-eslint/parser": "^8.30.0",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react": "^7.37.5",
+    "standard-version": "^9.5.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }
