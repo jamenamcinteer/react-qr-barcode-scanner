@@ -4,3 +4,4 @@ node_modules
 tsconfig.tsbuildinfo
 docs/tsconfig.app.tsbuildinfo
 docs/tsconfig.node.tsbuildinfo
+dist
