@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.0.4...v2.1.0) (2025-04-21)
+
+
+### Features
+
+* support for limiting scannable barcode formats ([d061a6f](https://github.com/jamenamcinteer/react-qr-barcode-scanner/commit/d061a6fc781cf7c4257e4d0a6a26395742de47f9))
+
 ### [2.0.4](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.0.2...v2.0.4) (2025-04-17)
 
 
