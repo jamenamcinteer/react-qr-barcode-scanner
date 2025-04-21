@@ -4,12 +4,33 @@ import BarcodeScanner, { BarcodeStringFormat } from "react-qr-barcode-scanner";
 
 function App() {
   const [data, setData] = useState<string>("");
+  const [torchEnabled, setTorchEnabled] = useState<boolean>(false);
+  const [facingMode, setFacingMode] = useState<"environment" | "user">(
+    "environment"
+  );
   const [formats, setFormats] = useState<BarcodeStringFormat[] | undefined>(
     undefined
   );
 
   return (
     <>
+      <fieldset style={{ width: "300px", margin: "16px auto" }}>
+        <label style={{ marginRight: "16px" }}>Torch:</label>
+        <button onClick={() => setTorchEnabled((prev) => !prev)}>
+          Torch (Flashlight): {torchEnabled ? "On" : "Off"}
+        </button>
+      </fieldset>
+      <fieldset style={{ width: "300px", margin: "16px auto" }}>
+        <label style={{ marginRight: "16px" }}>Facing Mode:</label>
+        <select
+          onChange={(event) =>
+            setFacingMode(event.target.value as "environment" | "user")
+          }
+        >
+          <option value="environment">environment</option>
+          <option value="user">user</option>
+        </select>
+      </fieldset>
       <fieldset style={{ width: "300px", margin: "16px auto" }}>
         <label style={{ marginRight: "16px" }}>Format:</label>
         <select
@@ -45,6 +66,8 @@ function App() {
         onUpdate={(_err, result) => {
           if (result) setData(result.getText());
         }}
+        torch={torchEnabled}
+        facingMode={facingMode}
         formats={formats}
       />
       <p>Result: {data}</p>
