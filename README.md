@@ -18,15 +18,15 @@ Try a demo of the scanner [here](https://jamenamcinteer.github.io/react-qr-barco
 ## Usage in React:
 
 ```jsx
-import React from "react";
-import BarcodeScannerComponent from "react-qr-barcode-scanner";
+import { useState } from "react";
+import BarcodeScanner from "react-qr-barcode-scanner";
 
 function App() {
-  const [data, setData] = React.useState("Not Found");
+  const [data, setData] = useState("Not Found");
 
   return (
     <>
-      <BarcodeScannerComponent
+      <BarcodeScanner
         width={500}
         height={500}
         onUpdate={(err, result) => {
@@ -97,6 +97,12 @@ Type: `MediaTrackConstraints`, Optional
 Type: `boolean`, Optional
 
 This prop is a workaround for a bug where the browser freezes if the webcam component is unmounted or removed. See known issues for more about this issue.
+
+### formats
+
+Type: `BarcodeFormat[] | BarcodeStringFormat[]`, Optional
+
+Array of barcode formats to decode. If not provided, all formats will be used. A smaller list may improve the speed of the scan.
 
 ## Supported Barcode Formats
 
