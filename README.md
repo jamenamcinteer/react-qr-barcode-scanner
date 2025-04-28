@@ -84,6 +84,26 @@ Type: `boolean`, Optional
 
 Turn the camera flashlight on or off.
 
+Torch will only work if the correct `facingMode` is selected. For example, if "user" is selected but the flashlight corresponds to the "environment" camera, then it will not turn on.
+
+Torch will not turn on if a static value of `true` is passed. The initial value must be `false`, and then switched to `true` after a timeout or after a user action.
+
+Here is an example using a timeout:
+```
+const [torchEnabled, setTorchEnabled] = useState<boolean>(false);
+
+useEffect(() => {
+    setTimeout(() => {
+      setTorchEnabled(true);
+    }, 2000);
+  }, []);
+
+<BarcodeScanner
+  torch={torchEnabled}
+  onUpdate={(err, result) => {}}
+/>
+```
+
 ### delay
 
 Type: `number`, Optional, Default: `500`
