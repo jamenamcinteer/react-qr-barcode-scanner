@@ -10,6 +10,10 @@ on:
       - next-release # runs on PRs targeting next-release
       - main # runs on PRs targeting main
 
+permissions:
+  contents: read # Allows actions/checkout to read the repository
+  pull-requests: read # Required to read PR metadata (e.g., PR title, author)
+
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
