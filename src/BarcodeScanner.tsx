@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   BarcodeFormat,
   BrowserMultiFormatReader,
@@ -125,9 +125,9 @@ export const BarcodeScanner = ({
       if (track && track.getCapabilities().torch) {
         track
           .applyConstraints({
-            advanced: [{ torch }] as any,
+            advanced: [{ torch }] as unknown as MediaTrackConstraintSet[],
           })
-          .catch((err: any) => onUpdate(err));
+          .catch((err: unknown) => onUpdate(err));
       }
     }
   }, [torch, onUpdate]);
@@ -165,6 +165,7 @@ export const BarcodeScanner = ({
       }
       audio={false}
       onUserMediaError={onError}
+      data-testid="video"
     />
   );
 };
