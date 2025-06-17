@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "build": "rm -rf dist && tsc --build tsconfig.json --declaration",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "release": "standard-version"
   },
   "repository": {
@@ -39,17 +40,22 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.30.0",
     "@typescript-eslint/parser": "^8.30.0",
+    "@vitest/coverage-v8": "3.2.3",
     "eslint": "^9.29.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.2.0",
+    "jsdom": "^26.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "standard-version": "^9.5.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.1"
+    "typescript-eslint": "^8.34.1",
+    "vitest": "^3.2.3"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
