@@ -165,6 +165,7 @@ export const BarcodeScanner = ({
       }
       audio={false}
       onUserMediaError={onError}
+      data-testid="video"
     />
   );
 };

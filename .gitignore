@@ -5,3 +5,4 @@ tsconfig.tsbuildinfo
 docs/tsconfig.app.tsbuildinfo
 docs/tsconfig.node.tsbuildinfo
 dist
+coverage
