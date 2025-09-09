@@ -26,10 +26,10 @@ async function createPullRequest() {
   const { data: pr } = await octokit.pulls.create({
     owner: OWNER,
     repo: REPO,
-    title: 'chore: Upgrade Minor and Patch Dependencies',
+    title: 'chore: Upgrade Dependencies',
     head: 'dependency-updates',
     base: 'main', // Use main as the base branch
-    body: 'This PR updates all **minor** and **patch** dependencies.',
+    body: 'This PR updates all dependencies.',
   });
 
   console.log('Pull request created successfully!');

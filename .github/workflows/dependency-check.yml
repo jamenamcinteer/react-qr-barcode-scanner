@@ -3,7 +3,7 @@ name: Check for Yarn dependency updates
 on:
   schedule:
     # Runs every 2 weeks (Monday at 00:00 UTC)
-    - cron: '0 0 */14 * *'
+    - cron: "0 0 */14 * *"
   workflow_dispatch: # Optional: Allow manual trigger
 
 permissions:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install scripts dependencies
         run: |
@@ -46,12 +46,12 @@ jobs:
             echo "outdated=false" >> $GITHUB_ENV
           fi
 
-      - name: Create issue with outdated dependencies
-        if: env.outdated == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          node .github/scripts/create-issue.js
+      # - name: Create issue with outdated dependencies
+      #   if: env.outdated == 'true'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     node .github/scripts/create-issue.js
 
       - name: Create branch and update dependencies
         if: env.outdated == 'true'
@@ -61,9 +61,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b dependency-updates
-          yarn upgrade --latest --minor
-          yarn upgrade --latest --patch
-          git commit -am "chore: upgrade minor and patch dependencies"
+          yarn upgrade --latest
+          # yarn upgrade --latest --minor
+          # yarn upgrade --latest --patch
+          git commit -am "chore: upgrade dependencies"
           git push origin dependency-updates
 
       - name: Create pull request linking to issue
