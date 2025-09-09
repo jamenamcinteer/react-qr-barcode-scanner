@@ -28,7 +28,7 @@ async function createPullRequest() {
     repo: REPO,
     title: 'chore: Upgrade Dependencies',
     head: 'dependency-updates',
-    base: 'main', // Use main as the base branch
+    base: 'next-release', // Use next-release as the base branch
     body: 'This PR updates all dependencies.',
   });
 
