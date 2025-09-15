@@ -48,13 +48,6 @@ jobs:
             echo "outdated=false" >> $GITHUB_ENV
           fi
 
-      # - name: Create issue with outdated dependencies
-      #   if: env.outdated == 'true'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     node .github/scripts/create-issue.js
-
       - name: Create branch and update dependencies
         if: env.outdated == 'true'
         env:
