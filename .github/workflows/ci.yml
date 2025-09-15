@@ -35,3 +35,8 @@ jobs:
 
       - name: Run tests with coverage
         run: yarn test:coverage
+
+      - name: Validate PR title
+        uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
