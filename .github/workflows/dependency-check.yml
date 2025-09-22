@@ -62,7 +62,7 @@ jobs:
           if [ -s outdated_docs.json ]; then
             echo "outdated=true" >> $GITHUB_ENV
           fi
-
+          
       - name: Create branch and update dependencies
         if: env.outdated == 'true'
         env:
