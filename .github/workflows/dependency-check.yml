@@ -48,6 +48,21 @@ jobs:
             echo "outdated=false" >> $GITHUB_ENV
           fi
 
+      - name: Install project dependencies (docs)
+        run: cd docs_src && yarn install
+
+      - name: Check for outdated dependencies (docs)
+        id: outdated_docs
+        run: |
+          cd docs_src && yarn outdated --json > outdated_docs.json || true
+
+      - name: Determine if any dependencies are outdated
+        id: check_outdated_docs
+        run: |
+          if [ -s outdated_docs.json ]; then
+            echo "outdated=true" >> $GITHUB_ENV
+          fi
+          
       - name: Create branch and update dependencies
         if: env.outdated == 'true'
         env:
@@ -59,6 +74,8 @@ jobs:
           yarn upgrade --latest
           # yarn upgrade --latest --minor
           # yarn upgrade --latest --patch
+          cd docs_src && yarn upgrade --latest
+          cd ..
           git commit -am "chore: upgrade dependencies"
           git push origin dependency-updates
 
