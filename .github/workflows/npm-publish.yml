@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
       - uses: actions/download-artifact@v4
         with:
           name: dist
