@@ -13,13 +13,22 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
-      - uses: actions/upload-artifact@v4
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build project
+        run: yarn build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
@@ -31,16 +40,24 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - run: yarn install --frozen-lockfile
-      - uses: actions/download-artifact@v4
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
-      - run: npm publish
+
+      - name: Publish to npm
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
