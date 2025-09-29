@@ -1,6 +1,6 @@
 {
   "name": "react-qr-barcode-scanner",
-  "version": "2.1.14",
+  "version": "2.1.15",
   "description": "A simple React Component using the client's webcam to read barcodes and QR codes.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
