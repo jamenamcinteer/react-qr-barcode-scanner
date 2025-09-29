@@ -39,5 +39,8 @@ jobs:
       - name: Validate PR title
         if: github.event_name == 'pull_request'
         uses: amannn/action-semantic-pull-request@v6
+        with:
+          ignoreLabels: |
+            bot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
