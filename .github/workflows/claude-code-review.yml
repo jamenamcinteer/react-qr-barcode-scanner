@@ -1,0 +1,195 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - next-release
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR diff
+        id: diff
+        run: |
+          # Fetch the base branch
+          git fetch origin ${{ github.base_ref }}
+
+          # Get the diff between base and head
+          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD)
+
+          # Save diff to file for easier handling
+          echo "$DIFF" > pr_diff.txt
+
+          # Get file list
+          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          echo "$FILES" > changed_files.txt
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Claude Code Review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.repository }}
+        run: |
+          cat > review.js << 'REVIEWSCRIPT'
+          const https = require('https');
+          const fs = require('fs');
+
+          const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+          const PR_NUMBER = process.env.PR_NUMBER;
+          const PR_TITLE = process.env.PR_TITLE;
+          const PR_AUTHOR = process.env.PR_AUTHOR;
+          const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+          const REPO_NAME = process.env.REPO_NAME;
+
+          if (!ANTHROPIC_API_KEY) {
+            console.error('ERROR: ANTHROPIC_API_KEY is not set');
+            console.error('Please add your Anthropic API key as a repository secret named ANTHROPIC_API_KEY');
+            process.exit(1);
+          }
+
+          const diff = fs.readFileSync('pr_diff.txt', 'utf8');
+          const files = fs.readFileSync('changed_files.txt', 'utf8').split('\n').filter(f => f);
+
+          // Truncate diff if too large (API limits)
+          const maxDiffLength = 50000;
+          const truncatedDiff = diff.length > maxDiffLength
+            ? diff.substring(0, maxDiffLength) + '\n\n... (diff truncated due to size)'
+            : diff;
+
+          const prompt = `You are an expert code reviewer. Please review this pull request and provide constructive feedback.
+
+          PR Title: ${PR_TITLE}
+          Author: ${PR_AUTHOR}
+
+          Changed Files:
+          ${files.join('\n')}
+
+          Diff:
+          \`\`\`diff
+          ${truncatedDiff}
+          \`\`\`
+
+          Please provide:
+          1. A summary of the changes
+          2. Potential issues or bugs
+          3. Code quality suggestions
+          4. Security concerns (if any)
+          5. Performance considerations
+          6. Testing recommendations
+
+          Format your response in markdown. Be constructive and helpful.`;
+
+          const data = JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 4096,
+            messages: [{
+              role: 'user',
+              content: prompt
+            }]
+          });
+
+          const options = {
+            hostname: 'api.anthropic.com',
+            path: '/v1/messages',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': ANTHROPIC_API_KEY,
+              'anthropic-version': '2023-06-01',
+              'Content-Length': data.length
+            }
+          };
+
+          const req = https.request(options, (res) => {
+            let responseData = '';
+
+            res.on('data', (chunk) => {
+              responseData += chunk;
+            });
+
+            res.on('end', () => {
+              if (res.statusCode !== 200) {
+                console.error('Anthropic API Error:', responseData);
+                process.exit(1);
+              }
+
+              const response = JSON.parse(responseData);
+              const review = response.content[0].text;
+
+              // Post review as PR comment
+              const commentData = JSON.stringify({
+                body: `## 🤖 Claude Code Review\n\n${review}\n\n---\n*Automated review by Claude*`
+              });
+
+              const commentOptions = {
+                hostname: 'api.github.com',
+                path: `/repos/${REPO_NAME}/issues/${PR_NUMBER}/comments`,
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `token ${GITHUB_TOKEN}`,
+                  'User-Agent': 'Claude-Code-Review',
+                  'Content-Length': commentData.length
+                }
+              };
+
+              const commentReq = https.request(commentOptions, (commentRes) => {
+                let commentResponseData = '';
+
+                commentRes.on('data', (chunk) => {
+                  commentResponseData += chunk;
+                });
+
+                commentRes.on('end', () => {
+                  if (commentRes.statusCode === 201) {
+                    console.log('Review posted successfully!');
+                  } else {
+                    console.error('GitHub API Error:', commentResponseData);
+                    process.exit(1);
+                  }
+                });
+              });
+
+              commentReq.on('error', (error) => {
+                console.error('Error posting comment:', error);
+                process.exit(1);
+              });
+
+              commentReq.write(commentData);
+              commentReq.end();
+            });
+          });
+
+          req.on('error', (error) => {
+            console.error('Error calling Anthropic API:', error);
+            process.exit(1);
+          });
+
+          req.write(data);
+          req.end();
+          REVIEWSCRIPT
+
+          node review.js
