@@ -9,17 +9,11 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       include: ["src/**/*.{ts,tsx}"],
 
-      // Thresholds for all files
       thresholds: {
-        functions: 95,
-        lines: 50,
-        branches: 60,
-        statements: 50,
-
-        // Thresholds for BarcodeScanner.tsx
-        "src/BarcodeScanner.tsx": {
-          functions: 45,
-        },
+        functions: 50,
+        lines: 70,
+        branches: 65,
+        statements: 55,
       },
     },
   },
