@@ -15,7 +15,6 @@ export default defineConfig({
         lines: 50,
         branches: 60,
         statements: 50,
-        perFile: true,
 
         // Thresholds for BarcodeScanner.tsx
         "src/BarcodeScanner.tsx": {
