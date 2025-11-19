@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jamenamcinteer/react-qr-barcode-scanner.git"
+    "url": "https://github.com/jamenamcinteer/react-qr-barcode-scanner"
   },
   "keywords": [
     "react",
