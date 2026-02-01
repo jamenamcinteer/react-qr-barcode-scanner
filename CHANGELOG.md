@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.23](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.1.22...v2.1.23) (2026-02-01)
+
 ### [2.1.22](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.1.21...v2.1.22) (2026-01-29)
 
 ### [2.1.21](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.1.20...v2.1.21) (2025-12-29)
