@@ -25,7 +25,7 @@ jobs:
           ref: next-release
           fetch-depth: 0
 
-      - name: Ensure no existing release PR (next-release -> main)
+      - name: Check for existing release PR and changes
         id: prcheck
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,22 +38,32 @@ jobs:
             "/repos/$OWNER/$REPO/pulls?state=open&head=$OWNER:next-release&base=main" \
             --jq 'length')
           echo "open_count=$COUNT" >> "$GITHUB_OUTPUT"
+
+          # Check if there are changes between next-release and main
+          git fetch origin main
+          CHANGES=$(git rev-list --count origin/main..HEAD)
+          echo "changes_count=$CHANGES" >> "$GITHUB_OUTPUT"
+
           if [ "$COUNT" -gt 0 ]; then
             echo "An open release PR already exists. Skipping."
+          elif [ "$CHANGES" -eq 0 ]; then
+            echo "No changes between next-release and main. Skipping release."
+          else
+            echo "Found $CHANGES commit(s) in next-release ahead of main. Proceeding with release."
           fi
 
       - name: Setup Node.js
-        if: steps.prcheck.outputs.open_count == '0'
+        if: steps.prcheck.outputs.open_count == '0' && steps.prcheck.outputs.changes_count != '0'
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
       - name: Install dependencies
-        if: steps.prcheck.outputs.open_count == '0'
+        if: steps.prcheck.outputs.open_count == '0' && steps.prcheck.outputs.changes_count != '0'
         run: yarn install --frozen-lockfile
 
       - name: Run standard-version (bump version, changelog, tag)
-        if: steps.prcheck.outputs.open_count == '0'
+        if: steps.prcheck.outputs.open_count == '0' && steps.prcheck.outputs.changes_count != '0'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -62,7 +72,7 @@ jobs:
           yarn release
 
       - name: Push changes and tags
-        if: steps.prcheck.outputs.open_count == '0'
+        if: steps.prcheck.outputs.open_count == '0' && steps.prcheck.outputs.changes_count != '0'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -72,7 +82,7 @@ jobs:
           git push origin --tags
 
       - name: Create PR from next-release to main
-        if: steps.prcheck.outputs.open_count == '0'
+        if: steps.prcheck.outputs.open_count == '0' && steps.prcheck.outputs.changes_count != '0'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
