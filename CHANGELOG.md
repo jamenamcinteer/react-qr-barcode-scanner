@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.29](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.1.28...v2.1.29) (2026-08-15)
+
+
+### Bug Fixes
+
+* bump Node.js to 24 in dependency-check workflow ([#430](https://github.com/jamenamcinteer/react-qr-barcode-scanner/issues/430)) ([e8d4f1a](https://github.com/jamenamcinteer/react-qr-barcode-scanner/commit/e8d4f1ad673e96803ea9f997f65f161e48524e31))
+
 ### [2.1.28](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.1.27...v2.1.28) (2026-08-01)
 
 ### [2.1.27](https://github.com/jamenamcinteer/react-qr-barcode-scanner/compare/v2.1.26...v2.1.27) (2026-07-29)
